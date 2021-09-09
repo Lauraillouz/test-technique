@@ -55,7 +55,7 @@ const sumMultiples = (limit) => {
 };
 sumMultiples(20);
 
-// 6 -  Function showStars (pourquoi ça commence et finit par undefined ??)
+// 6 -  Function showStars
 const showStars = (rows) => {
   let stars = "";
   for (let i = 1; i <= rows; i++) {
