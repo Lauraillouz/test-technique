@@ -1,40 +1,52 @@
-// Libraries
-const expressValidator = require("express-validator");
-const passwordValidator = require("password-validator");
+const express = require("express");
+const app = express();
+app.use(express.json());
 
-const validation = () => {
-  return [
-    expressValidator
-      .body("email")
-      .isEmail()
-      .withMessage("This email is not valid"),
+const validateUsername = (req, res, next) => {
+  const username = req.body.username;
+  const usernameCheck = username.length >= 5;
 
-    expressValidator
-      .body("password")
-      .custom((value) => {
-        const schema = new passwordValidator();
-        schema.is().min(8).has().lowercase().has().uppercase().has().digits(1);
+  if (usernameCheck) {
+    return next();
+  } else {
+    res.json({
+      status: "Error",
+      message: "The username should contain at least 5 characters",
+    });
+  }
+};
 
-        return schema.validate(value);
-      })
-      .withMessage(
-        "The password must contain at least 8 characters, including at least: 1 lowercase, 1 uppercase and 1 digit"
-      ),
-    (req, res, next) => {
-      const errors = expressValidator.validationResult(req);
-      if (errors.isEmpty()) {
-        return next();
-      } else {
-        res.json({
-          status: errors.array(),
-          message: "Form is invalid",
-        });
-      }
-      next();
-    },
-  ];
+const validateEmail = (req, res, next) => {
+  const userEmail = req.body.email;
+  const emailSchema = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (emailSchema.test(userEmail)) {
+    return next();
+  } else {
+    res.json({
+      status: "Error",
+      message: "This email is not valid",
+    });
+  }
+};
+
+const validatePassword = (req, res, next) => {
+  const userPassword = req.body.password;
+  const passwordSchema = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+
+  if (passwordSchema.test(userPassword)) {
+    return next();
+  } else {
+    res.json({
+      status: "Error",
+      message:
+        "The password must contain at least 8 characters, including at least: 1 lowercase, 1 uppercase and 1 digit",
+    });
+  }
 };
 
 module.exports = {
-  validation,
+  validateUsername,
+  validateEmail,
+  validatePassword,
 };
