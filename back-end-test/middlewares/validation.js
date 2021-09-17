@@ -1,17 +1,3 @@
-const validateUsername = (req, res, next) => {
-  const username = req.body.username;
-  const usernameCheck = username.length >= 5;
-
-  if (usernameCheck) {
-    return next();
-  } else {
-    res.json({
-      status: "Error",
-      message: "The username should contain at least 5 characters",
-    });
-  }
-};
-
 const validateEmail = (req, res, next) => {
   const userEmail = req.body.email;
   const emailSchema = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -19,7 +5,7 @@ const validateEmail = (req, res, next) => {
   if (emailSchema.test(userEmail)) {
     return next();
   } else {
-    res.json({
+    res.status(403).json({
       status: "Error",
       message: "This email is not valid",
     });
@@ -33,7 +19,7 @@ const validatePassword = (req, res, next) => {
   if (passwordSchema.test(userPassword)) {
     return next();
   } else {
-    res.json({
+    res.status(403).json({
       status: "Error",
       message:
         "The password must contain at least 8 characters, including at least: 1 lowercase, 1 uppercase and 1 digit",
@@ -42,7 +28,6 @@ const validatePassword = (req, res, next) => {
 };
 
 module.exports = {
-  validateUsername,
   validateEmail,
   validatePassword,
 };

@@ -6,14 +6,11 @@ const jwt = require("jsonwebtoken");
 const getUsers = async (_req, res) => {
   try {
     const users = await User.find();
-    const usersList = users.map((user) => {
-      return user.username;
-    });
 
     if (users) {
       return res.status(202).json({
         status: "OK",
-        data: usersList,
+        data: users,
       });
     }
   } catch (err) {

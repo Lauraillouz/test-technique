@@ -10,7 +10,6 @@ const usersController = require("../controllers/usersController");
 // POST
 router.post(
   "/",
-  validation.validateUsername,
   validation.validateEmail,
   validation.validatePassword,
   usersController.newUser
