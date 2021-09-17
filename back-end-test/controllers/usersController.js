@@ -1,6 +1,6 @@
 const User = require("../models/userModel");
 
-// Get all usernames (to not share emails with evrybody)
+// Get all usernames (to not share emails with everybody)
 const getUsers = async (_req, res) => {
   const users = await User.find();
   const usersList = users.map((user) => {
