@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Get all usernames (to not share emails with everybody)
 const getUsers = async (_req, res) => {
