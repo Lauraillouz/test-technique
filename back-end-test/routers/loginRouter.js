@@ -1,13 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-// Controllers
+// Controller
 const usersController = require("../controllers/usersController");
 
-// Middleware
-const checkToken = require("../middlewares/checkToken");
-
-// GET
-router.get("/", checkToken, usersController.getUsers);
+router.post("/", usersController.getToken);
 
 module.exports = router;
